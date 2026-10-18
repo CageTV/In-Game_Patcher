@@ -18,7 +18,12 @@ void RayCollector::AddRayHit(const RE::hkpCdBody& body, const RE::hkpShapeRayCas
     const auto collisionObj = static_cast<const RE::hkpCollidable*>(hit.body);
     const auto flags = collisionObj->broadPhaseHandle.collisionFilterInfo;
 
+#ifdef IGP_NG
+    // CFilter is a struct here; x64 takes a 64-bit shift count modulo 64, so this is the same bit the older build selected
+    const uint64_t m = 1ULL << (static_cast<uint64_t>(flags.filter) & 63);
+#else
     const uint64_t m = 1ULL << static_cast<uint64_t>(flags);
+#endif
 
     //logger::info("Flags: {:x}", m);
 

@@ -109,7 +109,11 @@ std::pair<RE::NiPoint3, RE::TESObjectREFR*> RayCast::CastRay(
 
     auto collector = RayCollector(evaluator);
     collector.Reset();
+#ifdef IGP_NG
+    pick_data.closestRayHitCollector = reinterpret_cast<RE::hkpClosestRayHitCollector*>(&collector);
+#else
     pick_data.rayHitCollectorA8 = reinterpret_cast<RE::hkpClosestRayHitCollector*>(&collector);
+#endif
 
     const auto ply = RE::PlayerCharacter::GetSingleton();
     if (!ply->parentCell) return {};

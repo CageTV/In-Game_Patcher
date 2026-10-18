@@ -43,11 +43,15 @@ namespace MCP {
         
         // The following if-else is required because the address of GetSelectedRef function changes between AE
         // vesions
+#ifdef IGP_NG
+        ref = RE::Console::GetSelectedRef().get();  // alandtse's CommonLibSSE-NG picks the right address for every AE version itself
+#else
         if (Version.compare(REL::Version(1, 6, 1130)) == std::strong_ordering::less){
             ref = RE::Console::GetSelectedRef640().get();  // AE offset: 405935
         } else {
             ref = RE::Console::GetSelectedRef().get(); // AE offset: 504099
         }
+#endif
 
         if (ref) {
             if (ref->As<RE::Actor>()) {

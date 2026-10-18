@@ -48,7 +48,11 @@ void PatcherPromptSink::ProcessEvent(SkyPromptAPI::PromptEvent event) const {
                         dragging = true;
                         logger::info("Started dragging object: {}", ref->GetName());
                     } else {
+#ifdef IGP_NG
+                        RE::SendHUDMessage::ShowHUDMessage("Object Manipulation Overhaul is not installed");
+#else
                         RE::DebugNotification("Object Manipulation Overhaul is not installed");
+#endif
                     }
                     if (!SkyPromptAPI::SendPrompt(PatcherPromptSink::GetSingleton(), clientID)) {
                         logger::error("Failed to send prompt to SkyPrompt after starting drag");
